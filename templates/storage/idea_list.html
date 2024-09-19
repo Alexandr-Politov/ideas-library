@@ -14,7 +14,7 @@
     {{ search_form|crispy }}
     <input class="btn btn-secondary" type="submit" value="🔍">
   </form>
-  <p><a class="btn btn-primary" href="#">add new idea</a></p>
+  <p><a class="btn btn-primary" href="{% url 'storage:idea-create' %}">add new idea</a></p>
 
   {% if idea_list %}
     <table class="table">
