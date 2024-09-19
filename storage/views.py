@@ -1,6 +1,7 @@
 from audioop import reverse
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -22,7 +23,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "storage/index.html", context)
 
 
-class IdeaListView(ListView):
+class IdeaListView(LoginRequiredMixin, ListView):
     model = Idea
     paginate_by = 2
 
@@ -41,17 +42,17 @@ class IdeaListView(ListView):
         return queryset
 
 
-class IdeaDetailView(DetailView):
+class IdeaDetailView(LoginRequiredMixin, DetailView):
     model = Idea
 
 
-class IdeaCreateView(CreateView):
+class IdeaCreateView(LoginRequiredMixin, CreateView):
     model = Idea
     fields = "__all__"
     success_url = reverse_lazy("storage:idea-list")
 
 
-class IdeaUpdateView(UpdateView):
+class IdeaUpdateView(LoginRequiredMixin, UpdateView):
     model = Idea
     fields = "__all__"
 
@@ -59,6 +60,6 @@ class IdeaUpdateView(UpdateView):
         return reverse_lazy("storage:idea-detail", kwargs={"pk": self.object.pk})
 
 
-class IdeaDeleteView(DeleteView):
+class IdeaDeleteView(LoginRequiredMixin, DeleteView):
     model = Idea
     success_url = reverse_lazy("storage:idea-list")
