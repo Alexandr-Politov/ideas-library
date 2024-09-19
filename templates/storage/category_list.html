@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+
+{% block title %}
+  <title>Categories</title>
+{% endblock %}
+
+
+{% block content %}
+  <h2>Categories</h2>
+  <form method="get" action="" class="form-inline">
+    {{ search_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="🔍">
+  </form>
+  <p><a class="btn btn-primary" href="{% url 'storage:category-create' %}">add new category</a></p>
+
+  {% if category_list %}
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+      {% for category in category_list %}
+        <tr>
+          <td>{{ category.name }}</td>
+          <td><a href="{% url 'storage:category-update' category.id %}">Update</a></td>
+          <td><a href="{% url 'storage:category-delete' category.id %}">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>There are no ideas available for you in our ideas library</p>
+  {% endif %}
+  
+{% endblock %}

@@ -1,3 +1,5 @@
+from lib2to3.fixes.fix_input import context
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
@@ -21,12 +23,10 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "storage/index.html", context)
 
 
-class IdeaListView(LoginRequiredMixin, generic.ListView):
-    model = Idea
-    paginate_by = 2
+class SearchListView(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(IdeaListView, self).get_context_data(**kwargs)
+        context = super(SearchListView, self).get_context_data(**kwargs)
         search = self.request.GET.get("search", "")
         context["search"] = search
         context["search_form"] = SearchForm(initial={"search": search})
@@ -38,6 +38,11 @@ class IdeaListView(LoginRequiredMixin, generic.ListView):
         if search:
             return queryset.filter(name__icontains=search)
         return queryset
+
+
+class IdeaListView(LoginRequiredMixin, SearchListView):
+    model = Idea
+    paginate_by = 2
 
 
 class IdeaDetailView(LoginRequiredMixin, generic.DetailView):
@@ -62,5 +67,26 @@ class IdeaUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 class IdeaDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = Idea
+    model = Category
     success_url = reverse_lazy("storage:idea-list")
+
+
+class CategoryListView(LoginRequiredMixin, SearchListView):
+    model = Category
+
+
+class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Category
+    fields = "__all__"
+    success_url = reverse_lazy("storage:category-list")
+
+
+class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Category
+    fields = "__all__"
+    success_url = reverse_lazy("storage:category-list")
+
+
+class CategoryDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Category
+    success_url = reverse_lazy("storage:category-list")
