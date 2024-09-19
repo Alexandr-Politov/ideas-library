@@ -34,7 +34,7 @@
             {% endif %}
           </td>
           <td>
-            <h5>{{ idea.name }}</h5>
+            <h5><a href="{% url 'storage:idea-detail' idea.pk %}">{{ idea.name }}</a></h5>
             <p>{{ idea.description }}</p>
             <p><u>difficulty lvl</u>: {{ idea.difficulty }}</p>
             <p><u>created_by:</u> {{ idea.author }}</p>

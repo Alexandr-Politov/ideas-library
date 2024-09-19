@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from storage.forms import SearchForm
 from storage.models import Idea, Category
@@ -36,3 +36,7 @@ class IdeaListView(ListView):
         if search:
             return queryset.filter(name__icontains=search)
         return queryset
+
+
+class IdeaDetailView(DetailView):
+    model = Idea

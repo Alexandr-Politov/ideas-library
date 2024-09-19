@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+  <title>idea_{{ idea.id }}</title>
+{% endblock %}
+
+
+{% block content %}
+  <h1>Title: {{ idea.title }}</h1>
+  
+  {% if idea.diagram %}
+    <img src="{{ idea.diagram.url }}" alt="Diagram" class="diagram-img inline">
+  {% else %}
+    <img src="{% static 'default-diagram.png' %}" alt="Diagram" class="diagram-img inline">
+  {% endif %}
+  
+  <br>
+  
+  <p>{{ idea.description }}</p>
+  <br>
+  
+  <p><i>created by:</i> {{ idea.author }}
+  <p>
+    <i>created:</i> {{ idea.created_at }} 
+    {% if idea.updated_at %}
+      <i>updated:</i> {{ idea.updated_at }}
+    {% endif %}
+  </p>
+  <p><i>categories:</i> 
+    {% for category in idea.categories.all %}
+      {{ category.name }},
+    {% endfor %}
+  </p>
+  
+{% endblock %}
