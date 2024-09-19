@@ -1,11 +1,9 @@
-from audioop import reverse
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views import generic
 
 from storage.forms import SearchForm
 from storage.models import Idea, Category
@@ -23,7 +21,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "storage/index.html", context)
 
 
-class IdeaListView(LoginRequiredMixin, ListView):
+class IdeaListView(LoginRequiredMixin, generic.ListView):
     model = Idea
     paginate_by = 2
 
@@ -42,24 +40,27 @@ class IdeaListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class IdeaDetailView(LoginRequiredMixin, DetailView):
+class IdeaDetailView(LoginRequiredMixin, generic.DetailView):
     model = Idea
 
 
-class IdeaCreateView(LoginRequiredMixin, CreateView):
+class IdeaCreateView(LoginRequiredMixin, generic.CreateView):
     model = Idea
     fields = "__all__"
     success_url = reverse_lazy("storage:idea-list")
 
 
-class IdeaUpdateView(LoginRequiredMixin, UpdateView):
+class IdeaUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Idea
     fields = "__all__"
 
     def get_success_url(self):
-        return reverse_lazy("storage:idea-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "storage:idea-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
-class IdeaDeleteView(LoginRequiredMixin, DeleteView):
+class IdeaDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Idea
     success_url = reverse_lazy("storage:idea-list")
