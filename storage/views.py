@@ -20,3 +20,4 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class IdeaListView(ListView):
     model = Idea
+    paginate_by = 2
