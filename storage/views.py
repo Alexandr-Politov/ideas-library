@@ -109,7 +109,6 @@ class UserListView(LoginRequiredMixin, SearchListView):
 class UserDetailView(LoginRequiredMixin, generic.DetailView):
     model = User
     template_name = "storage/user_detail.html"
-    context_object_name = "author"
 
 
 class UserCreateView(LoginRequiredMixin, generic.CreateView):

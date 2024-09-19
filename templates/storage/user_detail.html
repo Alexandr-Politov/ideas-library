@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+  <title>user_{{ user.id }}</title>
+{% endblock %}
+
+
+{% block content %}
+  <h1>User - {{ user }}</h1>
+
+  <p></p>
+
+  {% if user.ideas %}
+    <p>This user has shared these ideas:</p>
+    {% for idea in user.ideas.all %}
+      <p><a href="{% url 'storage:idea-detail' idea.id %}">{{ idea.name }}</a></p>
+    {% endfor %}
+  {% else %}
+    <p>This user haven't added any ideas yet</p>
+  {% endif %}
+
+
+  
+{% endblock %}

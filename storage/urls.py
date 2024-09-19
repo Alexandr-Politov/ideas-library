@@ -15,6 +15,7 @@ from storage.views import (
     CategoryDeleteView,
 
     UserListView,
+    UserDetailView,
     UserCreateView,
     UserUpdateView,
     UserDeleteView,
@@ -46,6 +47,7 @@ urlpatterns = [
 
     path("users/", UserListView.as_view(), name="user-list"),
     path("users/create/", UserCreateView.as_view(), name="user-create"),
+    path("users/<int:pk>/", UserDetailView.as_view(), name="user-detail"),
     path("users/<int:pk>/update/",
          UserUpdateView.as_view(),
          name="user-update"),
