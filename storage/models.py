@@ -10,6 +10,9 @@ class User(AbstractUser):
         return (f"{self.username}: ({self.first_name} "
                 f"{self.last_name} from {self.occupation})")
 
+    class Meta:
+        ordering = ["username"]
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)

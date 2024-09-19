@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+
+{% block title %}
+  <title>Delete user</title>
+{% endblock %}
+
+
+{% block content %}
+
+  <h1>Delete user {{ user.get_full_name }}</h1>
+  
+  <p>Do you really want to delete this user: {{ user.get_full_name }}</p>
+  <p><i>You won't be able to restore him after this action</i></p>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <input class="btn btn-danger" type="submit" value="Yes, delete">
+    <a class="btn btn-primary" href="{% url 'storage:user-list' %}">Cancel</a>
+
+  </form>
+
+{% endblock %}

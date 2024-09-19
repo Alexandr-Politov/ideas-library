@@ -1,14 +1,13 @@
-from lib2to3.fixes.fix_input import context
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from storage.forms import SearchForm
-from storage.models import Idea, Category
+from storage.forms import SearchForm, UserCreateForm
+from storage.models import Idea, Category, User
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -90,3 +89,41 @@ class CategoryUpdateView(LoginRequiredMixin, generic.UpdateView):
 class CategoryDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Category
     success_url = reverse_lazy("storage:category-list")
+
+
+class UserListView(LoginRequiredMixin, SearchListView):
+    model = User
+
+    def get_queryset(self):
+        queryset = self.model.objects.all()
+        search = self.request.GET.get("search")
+        if search:
+            return queryset.filter(
+                Q(username__icontains=search)
+                | Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+            )
+        return queryset
+
+
+class UserDetailView(LoginRequiredMixin, generic.DetailView):
+    model = User
+    template_name = "storage/user_detail.html"
+    context_object_name = "author"
+
+
+class UserCreateView(LoginRequiredMixin, generic.CreateView):
+    model = User
+    form_class = UserCreateForm
+    success_url = reverse_lazy("storage:user-list")
+
+
+class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = User
+    form_class = UserCreateForm
+    success_url = reverse_lazy("storage:user-list")
+
+
+class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = User
+    success_url = reverse_lazy("storage:user-list")

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+
+{% block title %}
+  <title>Users</title>
+{% endblock %}
+
+
+{% block content %}
+  <h2>Users list</h2>
+  <form method="get" action="" class="form-inline">
+    {{ search_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="🔍">
+  </form>
+  <p><a class="btn btn-primary" href="{% url 'storage:user-create' %}">add new user</a></p>
+
+  {% if user_list %}
+    <table class="table">
+      <tr>
+        <th>Username</th>
+        <th>Full name</th>
+        <th>Occupation</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+      {% for user in user_list %}
+        <tr>
+          <td><a href="#">{{ user.username }}</a></td>
+          <td>{{ user.get_full_name }}</td>
+          <td>{{ user.occupation }}</td>
+          <td><a href="{% url 'storage:user-update' user.id %}">Update</a></td>
+          <td><a href="{% url 'storage:user-delete' user.id %}">Delete</a></td>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>There are no such users in our ideas library</p>
+  {% endif %}
+  
+{% endblock %}

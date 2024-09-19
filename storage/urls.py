@@ -2,15 +2,22 @@ from django.urls import path
 
 from storage.views import (
     index,
+
     IdeaListView,
     IdeaDetailView,
     IdeaCreateView,
     IdeaUpdateView,
     IdeaDeleteView,
+
     CategoryListView,
     CategoryCreateView,
     CategoryUpdateView,
     CategoryDeleteView,
+
+    UserListView,
+    UserCreateView,
+    UserUpdateView,
+    UserDeleteView,
 )
 
 urlpatterns = [
@@ -36,6 +43,15 @@ urlpatterns = [
     path("categories/<int:pk>/delete/",
          CategoryDeleteView.as_view(),
          name="category-delete"),
+
+    path("users/", UserListView.as_view(), name="user-list"),
+    path("users/create/", UserCreateView.as_view(), name="user-create"),
+    path("users/<int:pk>/update/",
+         UserUpdateView.as_view(),
+         name="user-update"),
+    path("users/<int:pk>/delete/",
+         UserDeleteView.as_view(),
+         name="user-delete"),
 ]
 
 app_name = "storage"
