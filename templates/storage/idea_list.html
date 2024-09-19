@@ -34,8 +34,8 @@
             {% endif %}
           </td>
           <td>
+            <h5>{{ idea.name }}</h5>
             <p>{{ idea.description }}</p>
-
             <p><u>difficulty lvl</u>: {{ idea.difficulty }}</p>
             <p><u>created_by:</u> {{ idea.author }}</p>
             <p><u>for categories:</u> {% for category in idea.categories.all %}
