@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+
+{% block title %}
+  <title>Ideas</title>
+{% endblock %}
+
+
+{% block content %}
+  <h2>Ideas List</h2>
+  <form method="get" action="" class="form-inline">
+    {{ search_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="🔍">
+  </form>
+  <p><a class="btn btn-primary" href="#">add new idea</a></p>
+
+  {% if idea_list %}
+    <table class="table">
+      <tr>
+        <th>Diagram</th>
+        <th>Idea description</th>
+      </tr>
+      {% for idea in idea_list %}
+        <tr>
+          <td>
+            {% if idea.diagram %}
+              <img src="{{ idea.diagram.url }}" alt="Diagram" class="diagram-img inline" >
+            {% else %}
+              <img src="{% static 'default-diagram.png' %}" alt="No Diagram Available" class="diagram-img">
+            {% endif %}
+          </td>
+          <td>
+            <p>{{ idea.description }}</p>
+
+            <p><u>difficulty lvl</u>: {{ idea.difficulty }}</p>
+            <p><u>created_by:</u> {{ idea.author }}</p>
+            <p><u>for categories:</u> {% for category in idea.categories.all %}
+            {{ category.name }},
+            {% endfor %}</p>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>There are no ideas available for you in our ideas library</p>
+  {% endif %}
+  
+{% endblock %}

@@ -1,4 +1,6 @@
 <ul class="sidebar-nav list-group">
+
+
   {% if user.is_authenticated %}
     <li class="list-group-item">
       User: {{ user.username }}
@@ -9,22 +11,32 @@
         <button type="submit" class="btn btn-link p-0" style="text-decoration: none;">Logout</button>
     </form>
     </li>
+    
   {% else %}
     <li class="list-group-item">
       <a href="{% url 'login' %}">Login</a>
     </li>
   {% endif %}
+
+
   <br>
+
+
   <li class="list-group-item">
     <a href="{% url 'storage:index' %}">Home</a>
   </li>
+
   <li class="list-group-item">
-    <a href="#">All ideas</a>
+    <a href="{% url 'storage:idea-list' %}">All ideas</a>
   </li>
+
   <li class="list-group-item">
-    <a href="#">All books</a>
+    <a href="#">All users</a>
   </li>
+
   <li class="list-group-item">
-    <a href="#">All formats</a>
+    <a href="#">All categories</a>
   </li>
+
+
 </ul>
