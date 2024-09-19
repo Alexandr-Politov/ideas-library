@@ -1,7 +1,10 @@
+from audioop import reverse
+
 from django.contrib.auth import get_user_model
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from storage.forms import SearchForm
 from storage.models import Idea, Category
@@ -40,3 +43,22 @@ class IdeaListView(ListView):
 
 class IdeaDetailView(DetailView):
     model = Idea
+
+
+class IdeaCreateView(CreateView):
+    model = Idea
+    fields = "__all__"
+    success_url = reverse_lazy("storage:idea-list")
+
+
+class IdeaUpdateView(UpdateView):
+    model = Idea
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse_lazy("storage:idea-detail", kwargs={"pk": self.object.pk})
+
+
+class IdeaDeleteView(DeleteView):
+    model = Idea
+    success_url = reverse_lazy("storage:idea-list")

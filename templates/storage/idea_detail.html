@@ -9,29 +9,34 @@
 
 {% block content %}
   <h1>{{ idea.name }}</h1>
-  
+  <a class="btn btn-primary" href="{% url 'storage:idea-update' idea.id %}">UPDATE IDEA</a>
+  <a class="btn btn-danger" href="{% url 'storage:idea-delete' idea.id %}">DELETE IDEA</a>
+
+
+  <p></p>
+
   {% if idea.diagram %}
     <img src="{{ idea.diagram.url }}" alt="Diagram" class="diagram-img inline">
   {% else %}
     <img src="{% static 'default-diagram.png' %}" alt="Diagram" class="diagram-img inline">
   {% endif %}
-  
+
   <br>
-  
+
   <p>{{ idea.description }}</p>
   <br>
   
   <p><i>created by:</i> {{ idea.author }}
   <p>
-    <i>created:</i> {{ idea.created_at }} 
+    <i>created:</i> {{ idea.created_at }}
     {% if idea.updated_at %}
       <i>updated:</i> {{ idea.updated_at }}
     {% endif %}
   </p>
-  <p><i>categories:</i> 
+  <p><i>categories:</i>
     {% for category in idea.categories.all %}
       {{ category.name }},
     {% endfor %}
   </p>
-  
+
 {% endblock %}
