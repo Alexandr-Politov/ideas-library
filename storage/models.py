@@ -17,6 +17,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class Idea(models.Model):
     DIFFICULTY = [("Hard", "Hard"), ("Medium", "Medium"),("Easy", "Easy")]
