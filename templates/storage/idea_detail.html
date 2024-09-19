@@ -8,7 +8,7 @@
 
 
 {% block content %}
-  <h1>Title: {{ idea.title }}</h1>
+  <h1>{{ idea.name }}</h1>
   
   {% if idea.diagram %}
     <img src="{{ idea.diagram.url }}" alt="Diagram" class="diagram-img inline">
