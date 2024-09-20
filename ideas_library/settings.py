@@ -136,7 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "storage.User"
 
-LOGIN_REDIRECT_URL = "/storage/"
+LOGIN_REDIRECT_URL = "/"
 
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
