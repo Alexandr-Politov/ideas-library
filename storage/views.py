@@ -2,12 +2,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from storage.forms import SearchForm, UserCreateForm
-from storage.models import Idea, Category, User
+from storage.forms import SearchForm, UserCreateForm, CommentForm
+from storage.models import Idea, Category, User, Comment
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -46,6 +46,24 @@ class IdeaListView(LoginRequiredMixin, SearchListView):
 
 class IdeaDetailView(LoginRequiredMixin, generic.DetailView):
     model = Idea
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comment_form"] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.idea = self.object
+            comment.author = request.user
+            comment.save()
+            return redirect("storage:idea-detail", pk=self.object.pk)
+        context = self.get_context_data()
+        context["comment_form"] = form
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class IdeaCreateView(LoginRequiredMixin, generic.CreateView):
@@ -126,3 +144,13 @@ class UserUpdateView(LoginRequiredMixin, generic.UpdateView):
 class UserDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = User
     success_url = reverse_lazy("storage:user-list")
+
+
+class CommentDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "storage:idea-detail",
+            kwargs={"pk": self.object.idea.pk}
+        )

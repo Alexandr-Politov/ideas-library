@@ -19,6 +19,8 @@ from storage.views import (
     UserCreateView,
     UserUpdateView,
     UserDeleteView,
+
+    CommentDeleteView,
 )
 
 urlpatterns = [
@@ -54,6 +56,10 @@ urlpatterns = [
     path("users/<int:pk>/delete/",
          UserDeleteView.as_view(),
          name="user-delete"),
+
+    path("comments/<int:pk>/delete/",
+         CommentDeleteView.as_view(),
+         name="comment-delete"),
 ]
 
 app_name = "storage"

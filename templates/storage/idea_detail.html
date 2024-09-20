@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
 {% load static %}
 
 
@@ -12,31 +14,45 @@
   <a class="btn btn-primary" href="{% url 'storage:idea-update' idea.id %}">UPDATE IDEA</a>
   <a class="btn btn-danger" href="{% url 'storage:idea-delete' idea.id %}">DELETE IDEA</a>
 
+  <br>
 
-  <p></p>
+  <table class="table">
+      <tr>
+        <td>
+          {% if idea.diagram %}
+            <a href="{{ idea.diagram.url }}">
+            <img src="{{ idea.diagram.url }}" alt="Diagram" class="diagram-img inline" style="height: 300px; width: auto;">
+            </a>
+          {% else %}
+            <img src="{% static 'default-diagram.png' %}" alt="No Diagram Available" class="diagram-img">
+          {% endif %}
+        </td>
+        <td>
+          <p>{{ idea.description }}</p>
+          <p><u>difficulty lvl</u>: {{ idea.difficulty }}</p>
+          <p><u>created_by:</u> {{ idea.author }}</p>
+          <p><u>for categories:</u> {% for category in idea.categories.all %}
+          {{ category.name }},
+          {% endfor %}</p>
+        </td>
+      </tr>
+  </table>
 
-  {% if idea.diagram %}
-    <img src="{{ idea.diagram.url }}" alt="Diagram" class="diagram-img inline">
+  <h5>___Comments: ___</h5>
+  {% if idea.comments.exists %}
+    {% for comment in idea.comments.all %}
+      <p style="height: 10px">{{ comment.content }}</p>
+      <p style="font-size: small ">commented by {{ comment.author }} {{ comment.created_at }}</p>
+      <a class="btn btn-danger" href="{% url 'storage:comment-delete' comment.id %}">Delete comment</a>
+    {% endfor %}
   {% else %}
-    <img src="{% static 'default-diagram.png' %}" alt="Diagram" class="diagram-img inline">
+    <p>No comments for this idea yet</p>
   {% endif %}
 
-  <br>
-
-  <p>{{ idea.description }}</p>
-  <br>
-  
-  <p><i>created by:</i> {{ idea.author }}
-  <p>
-    <i>created:</i> {{ idea.created_at }}
-    {% if idea.updated_at %}
-      <i>updated:</i> {{ idea.updated_at }}
-    {% endif %}
-  </p>
-  <p><i>categories:</i>
-    {% for category in idea.categories.all %}
-      {{ category.name }},
-    {% endfor %}
-  </p>
+  <form method="post" action="{% url 'storage:idea-detail' idea.id %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="add comment">
+  </form>
 
 {% endblock %}
