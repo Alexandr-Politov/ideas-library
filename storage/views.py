@@ -92,6 +92,11 @@ class CategoryListView(LoginRequiredMixin, SearchListView):
     model = Category
 
 
+class CategoryDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Category
+    template_name = "storage/category_detail.html"
+
+
 class CategoryCreateView(LoginRequiredMixin, generic.CreateView):
     model = Category
     fields = "__all__"

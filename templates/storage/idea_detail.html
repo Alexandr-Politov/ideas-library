@@ -30,9 +30,10 @@
         <td>
           <p>{{ idea.description }}</p>
           <p><u>difficulty lvl</u>: {{ idea.difficulty }}</p>
-          <p><u>created_by:</u> {{ idea.author }}</p>
-          <p><u>for categories:</u> {% for category in idea.categories.all %}
-          {{ category.name }},
+          <p><u>created_by:</u> <a href="{% url 'storage:user-detail' idea.id %}">{{ idea.author }}</a></p>
+          <p><u>for categories:</u> 
+            {% for category in idea.categories.all %}
+            <a href="{% url 'storage:category-detail' category.id %}">{{ category.name }}</a>,
           {% endfor %}</p>
         </td>
       </tr>

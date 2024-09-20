@@ -3,22 +3,22 @@
 
 
 {% block title %}
-  <title>user_{{ user.id }}</title>
+  <title>{{ category.name }}</title>
 {% endblock %}
 
 
 {% block content %}
-  <h1>User - {{ user }}</h1>
+  <h1>Category - {{ category.name }}</h1>
 
   <p></p>
 
-  {% if user.ideas %}
-    <p>This user has shared these ideas:</p>
-    {% for idea in user.ideas.all %}
+  {% if category.ideas %}
+    <p>This category has next ideas:</p>
+    {% for idea in category.ideas.all %}
       <p><a href="{% url 'storage:idea-detail' idea.id %}">{{ idea.name }}</a></p>
     {% endfor %}
   {% else %}
-    <p>This user haven't added any ideas yet</p>
+    <p>There are no ideas for this category yet</p>
   {% endif %}
   
 {% endblock %}
