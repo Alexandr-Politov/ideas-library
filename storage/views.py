@@ -41,6 +41,7 @@ class SearchListView(generic.ListView):
 
 class IdeaListView(LoginRequiredMixin, SearchListView):
     model = Idea
+    queryset = Idea.objects.prefetch_related("categories").select_related("author")
     paginate_by = 2
 
 
