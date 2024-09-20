@@ -1,5 +1,5 @@
 {% load crispy_forms_filters %}
-<form action="" method="post" novalidate>
+<form action="" method="post" novalidate enctype="multipart/form-data">
   {% csrf_token %}
   {{ form|crispy }}
   <input class="button btn-primary" type="submit" value="Submit">
