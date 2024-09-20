@@ -25,7 +25,7 @@ class Category(models.Model):
 
 
 class Idea(models.Model):
-    DIFFICULTY = [("Hard", "Hard"), ("Medium", "Medium"),("Easy", "Easy")]
+    DIFFICULTY = [("Hard", "Hard"), ("Medium", "Medium"), ("Easy", "Easy")]
 
     name = models.CharField(max_length=255, unique=True)
     diagram = models.ImageField(upload_to="diagrams/", blank=True, null=True)
@@ -60,4 +60,4 @@ class Comment(models.Model):
     )
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
