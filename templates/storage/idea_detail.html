@@ -44,7 +44,9 @@
     {% for comment in idea.comments.all %}
       <p style="height: 10px">{{ comment.content }}</p>
       <p style="font-size: small ">commented by {{ comment.author }} {{ comment.created_at }}</p>
-      <a class="btn btn-danger" href="{% url 'storage:comment-delete' comment.id %}">Delete comment</a>
+      {% if comment.author == user %}
+        <a class="btn btn-danger" href="{% url 'storage:comment-delete' comment.id %}">Delete comment</a>	
+      {% endif %}
     {% endfor %}
   {% else %}
     <p>No comments for this idea yet</p>
