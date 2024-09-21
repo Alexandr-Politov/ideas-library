@@ -28,11 +28,11 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ["content"]
-        widget = {
+        labels = {"content": ""}
+        widgets = {
             "content": forms.TextInput(
                 attrs={
                     "rows": 2,
-                    "placeholder": "Enter your comment",
-                    "label": ""}
+                    "placeholder": "Enter your comment",}
             ),
         }
