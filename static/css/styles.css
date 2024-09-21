@@ -1,3 +1,42 @@
 body {
     margin-top: 20px;
 }
+
+.btn-transparent {
+    background: none; /* No background color */
+    border: none; /* No border */
+    color: inherit; /* Inherit the text color from the parent */
+    padding: 0; /* Remove padding */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.btn-transparent:hover {
+    opacity: 0.8; /* Optional: slightly fade on hover */
+}
+
+.transparent-form {
+    background-color: transparent; /* Make the form background transparent */
+    padding: 20px; /* Optional: add padding for spacing */
+    border-radius: 5px; /* Optional: add rounded corners */
+}
+
+.transparent-form label,
+.transparent-form input {
+    color: white; /* Set text color of labels and input fields to white */
+}
+
+.transparent-form input[type="text"],
+.transparent-form input[type="password"] {
+    background-color: rgba(255, 255, 255, 0.2); /* Optional: give inputs a slight white background with transparency */
+    border: 1px solid white; /* Set border color to white */
+}
+
+.transparent-form input[type="submit"] {
+    background-color: #007bff; /* Change submit button background */
+    color: white; /* Change submit button text color */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.transparent-form input[type="submit"]:hover {
+    background-color: #0056b3; /* Change background on hover */
+}

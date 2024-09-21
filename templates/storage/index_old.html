@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>Home page</title>
+{% endblock %}
+{% block content %}
+  <h1>Home of your great ideas for your very first Django project</h1>
+  <p>Share your ideas with others or take one if you need!</p>
+  <h3>Ideas-library content:</h3>
+  <ul>
+    <li>Number of ideas: {{ num_ideas }}</li>
+    <li>Written by {{ num_users }} users</li>
+    <li>divided into {{ num_categories }} categories</li>
+  </ul>
+  <p>You visited us: {{ num_visits }} time{{ num_visits|pluralize }}</p>
+{% endblock %}
