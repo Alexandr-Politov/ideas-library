@@ -1,7 +1,8 @@
 from django import forms
+from django.contrib.admin.templatetags.admin_list import pagination
 from django.contrib.auth.forms import UserCreationForm
 
-from storage.models import User, Comment
+from storage.models import User, Comment, Idea, Category
 
 
 class SearchForm(forms.Form):
@@ -36,3 +37,15 @@ class CommentForm(forms.ModelForm):
                     "placeholder": "Enter your comment",}
             ),
         }
+
+
+class IdeaForm(forms.ModelForm):
+    category = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
+    class Meta:
+        model = Idea
+        fields = "__all__"

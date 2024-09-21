@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from storage.forms import SearchForm, UserCreateForm, CommentForm
+from storage.forms import SearchForm, UserCreateForm, CommentForm, IdeaForm
 from storage.models import Idea, Category, User, Comment
 
 
@@ -69,13 +69,13 @@ class IdeaDetailView(LoginRequiredMixin, generic.DetailView):
 
 class IdeaCreateView(LoginRequiredMixin, generic.CreateView):
     model = Idea
-    fields = "__all__"
+    form_class = IdeaForm
     success_url = reverse_lazy("storage:idea-list")
 
 
 class IdeaUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Idea
-    fields = "__all__"
+    form_class = IdeaForm
 
     def get_success_url(self):
         return reverse_lazy(
