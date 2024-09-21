@@ -40,7 +40,7 @@ class CommentForm(forms.ModelForm):
 
 
 class IdeaForm(forms.ModelForm):
-    category = forms.ModelMultipleChoiceField(
+    categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
