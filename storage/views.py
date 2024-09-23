@@ -25,14 +25,14 @@ def index(request: HttpRequest) -> HttpResponse:
 class SearchListView(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(SearchListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         search = self.request.GET.get("search", "")
         context["search"] = search
         context["search_form"] = SearchForm(initial={"search": search})
         return context
 
     def get_queryset(self):
-        queryset = self.model.objects.all()
+        queryset = super().get_queryset()
         search = self.request.GET.get("search")
         if search:
             return queryset.filter(name__icontains=search)
@@ -41,7 +41,7 @@ class SearchListView(generic.ListView):
 
 class IdeaListView(LoginRequiredMixin, SearchListView):
     model = Idea
-    queryset = Idea.objects.prefetch_related("categories").select_related("author")
+    queryset = Idea.objects.all()
     paginate_by = 2
 
 
@@ -72,6 +72,11 @@ class IdeaCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = IdeaForm
     success_url = reverse_lazy("storage:idea-list")
 
+    def form_valid(self, form):
+        # Automatically assign the logged-in user as the author
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 class IdeaUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Idea
@@ -85,7 +90,7 @@ class IdeaUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 class IdeaDeleteView(LoginRequiredMixin, generic.DeleteView):
-    model = Category
+    model = Idea
     success_url = reverse_lazy("storage:idea-list")
 
 

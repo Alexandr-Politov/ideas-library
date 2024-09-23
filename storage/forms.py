@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.admin.templatetags.admin_list import pagination
 from django.contrib.auth.forms import UserCreationForm
 
 from storage.models import User, Comment, Idea, Category
@@ -49,3 +48,4 @@ class IdeaForm(forms.ModelForm):
     class Meta:
         model = Idea
         fields = "__all__"
+        exclude = ["author"]
