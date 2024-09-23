@@ -1,9 +1,9 @@
 from django.test import TestCase
 
-from storage.forms import UserCreateForm
+from storage.forms import UserCreateForm, CommentForm
 
 
-class FormsTests(TestCase):
+class UserCreateFormTests(TestCase):
     def test_user_createion_with_occupation_first_last_name_is_valid(self):
         form_data = {
             "username": "user",
@@ -16,3 +16,11 @@ class FormsTests(TestCase):
         form = UserCreateForm(data=form_data)
         self.assertTrue(form.is_valid())
         self.assertEqual(form.cleaned_data, form_data)
+
+
+class CommentFormTests(TestCase):
+    def test_comment_form_is_valid(self):
+        form_date = {"content": "some text as a comment"}
+        form = CommentForm(data=form_date)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data, form_date)
