@@ -3,7 +3,10 @@
 Project for storing and managing ideas for students' first portfolio Django project.
 
 ## Here you can try it:
-[Ideas-library deployed to Render]()
+https://ideas-library.onrender.com/
+Login to test the site: 
+Username: admin
+Password: 3Politov
 
 ## Installation
 
