@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load crispy_forms_field %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+
+{% block title %}
+  <title>idea_{{ idea.id }}</title>
+{% endblock %}
+
+
+{% block content %}
+  <h1>{{ idea.name }}</h1>
+  <a class="btn btn-primary" href="{% url 'storage:idea-update' idea.id %}">UPDATE IDEA</a>
+  <a class="btn btn-danger" href="{% url 'storage:idea-delete' idea.id %}">DELETE IDEA</a>
+
+  <br>
+
+  <table class="table">
+      <tr>
+        <td>
+          {% if idea.diagram %}
+            <a href="{{ idea.diagram.url }}">
+            <img src="{{ idea.diagram.url }}" alt="Diagram" class="diagram-img inline" style="height: 300px; width: auto;">
+            </a>
+          {% else %}
+            <img src="{% static 'default-diagram.png' %}" alt="No Diagram Available" class="diagram-img">
+          {% endif %}
+        </td>
+        <td>
+          <p>{{ idea.description }}</p>
+          <p><u>difficulty lvl</u>: {{ idea.difficulty }}</p>
+          <p><u>created_by:</u> <a href="{% url 'storage:user-detail' idea.id %}">{{ idea.author }}</a></p>
+          <p><u>for categories:</u> 
+            {% for category in idea.categories.all %}
+            <a href="{% url 'storage:category-detail' category.id %}">{{ category.name }}</a>,
+          {% endfor %}</p>
+        </td>
+      </tr>
+  </table>
+
+  <h5>___Comments: ___</h5>
+  {% if idea.comments.exists %}
+    {% for comment in idea.comments.all %}
+      <p style="height: 10px">{{ comment.content }}</p>
+      <p style="font-size: small ">commented by {{ comment.author }} {{ comment.created_at }}</p>
+      {% if comment.author == user %}
+        <a class="btn btn-danger" href="{% url 'storage:comment-delete' comment.id %}">Delete comment</a>	
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>No comments for this idea yet</p>
+  {% endif %}
+
+  <form method="post" action="{% url 'storage:idea-detail' idea.id %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+    <input class="btn btn-secondary" type="submit" value="add comment">
+  </form>
+
+{% endblock %}

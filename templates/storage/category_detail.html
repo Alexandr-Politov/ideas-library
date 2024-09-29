@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+  <title>{{ category.name }}</title>
+{% endblock %}
+
+
+{% block content %}
+  <h1>Category - {{ category.name }}</h1>
+
+  <p></p>
+
+  {% if category.ideas %}
+    <p>This category has next ideas:</p>
+    {% for idea in category.ideas.all %}
+      <p><a href="{% url 'storage:idea-detail' idea.id %}">{{ idea.name }}</a></p>
+    {% endfor %}
+  {% else %}
+    <p>There are no ideas for this category yet</p>
+  {% endif %}
+  
+{% endblock %}
